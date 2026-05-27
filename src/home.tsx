@@ -353,7 +353,7 @@ function Connect() {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
           <span className="inline-flex items-center gap-2">
             <MapPin className="h-4 w-4" aria-hidden />
-            <span>Cartagena, Murcia</span>
+            <span>Murcia/Nueva York</span>
           </span>
           <span className="inline-flex items-center gap-2">
             <Mail className="h-4 w-4" aria-hidden />

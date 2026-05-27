@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Instagram, MessageCircle, Music2, Mail, MapPin, Sparkles, ArrowDown } from "lucide-react";
 import VideoCarousel from "@/components/VideoCarousel";
+import { WhatIsUGC, Stats, WhyMe, Brands } from "@/components/UGCSections";
 import heroImg from "@/assets/paula-hero.jpeg";
 import p1 from "@/assets/paula-1.jpeg";
 import p2 from "@/assets/paula-2.jpeg";
@@ -98,8 +99,12 @@ export default function Home() {
       <Nav />
       <Hero />
       <About />
+      <WhatIsUGC />
+      <Stats />
+      <WhyMe />
       <Gallery />
       <VideoCarousel />
+      <Brands />
       <Connect />
       <Footer />
     </main>

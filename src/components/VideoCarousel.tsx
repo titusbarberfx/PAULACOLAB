@@ -195,26 +195,6 @@ export default function VideoCarousel() {
                   )}
                 </div>
 
-                {/* Subtle reflection under active card */}
-                {offset === 0 && (
-                  <div
-                    aria-hidden
-                    style={{
-                      position: "absolute",
-                      bottom: "-16%",
-                      left: 0,
-                      right: 0,
-                      height: "16%",
-                      transform: "scaleY(-1)",
-                      opacity: 0.10,
-                      filter: "blur(4px)",
-                      maskImage: "linear-gradient(to bottom, black, transparent)",
-                      WebkitMaskImage: "linear-gradient(to bottom, black, transparent)",
-                      overflow: "hidden",
-                      borderRadius: "0 0 1.5rem 1.5rem",
-                    }}
-                  />
-                )}
               </div>
             );
           })}

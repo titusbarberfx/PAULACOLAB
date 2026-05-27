@@ -195,6 +195,7 @@ function About() {
       <div className="mx-auto max-w-5xl px-6">
         <div className="mb-12 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Sobre mí</p>
+          <h2 className="mt-3 font-display text-4xl md:text-6xl">Quién soy</h2>
         </div>
 
         <div className="grid gap-12 md:grid-cols-5 md:items-center">
@@ -240,10 +241,10 @@ function About() {
 /* ─── Gallery ────────────────────────────────────────────────────── */
 function Gallery() {
   const items = [
-    { src: p2, alt: "Paula en Barcelona", span: "md:col-span-2 md:row-span-2" },
-    { src: p3, alt: "Paula en la playa", span: "" },
-    { src: p4, alt: "Paula al atardecer", span: "" },
-    { src: heroImg, alt: "Paula street style", span: "md:col-span-2" },
+    { src: p2, alt: "Paula Martínez posando", span: "md:col-span-2 md:row-span-2" },
+    { src: p3, alt: "Paula Martínez lifestyle", span: "" },
+    { src: p4, alt: "Paula Martínez al atardecer", span: "" },
+    { src: heroImg, alt: "Paula Martínez street style", span: "md:col-span-2" },
   ];
 
   return (
@@ -357,10 +358,13 @@ function Connect() {
             <MapPin className="h-4 w-4" aria-hidden />
             <span>Murcia/Nueva York</span>
           </span>
-          <span className="inline-flex items-center gap-2">
+          <a
+            href="mailto:colaboraconpaula@gmail.com"
+            className="inline-flex items-center gap-2 hover:text-foreground transition-colors duration-200"
+          >
             <Mail className="h-4 w-4" aria-hidden />
-            <span>colaboraciones@paulamartinez.com</span>
-          </span>
+            <span>colaboraconpaula@gmail.com</span>
+          </a>
         </div>
       </div>
     </section>

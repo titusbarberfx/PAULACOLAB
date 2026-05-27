@@ -1,0 +1,277 @@
+import { Instagram, MessageCircle, Music2, Mail, MapPin, Sparkles, ArrowDown } from "lucide-react";
+import heroImg from "@/assets/paula-hero.jpeg";
+import p1 from "@/assets/paula-1.jpeg";
+import p2 from "@/assets/paula-2.jpeg";
+import p3 from "@/assets/paula-3.jpeg";
+import p4 from "@/assets/paula-4.jpeg";
+
+const PHONE = "34611477211";
+const WHATSAPP_URL = `https://wa.me/${PHONE}?text=${encodeURIComponent("¡Hola Paula! Vengo desde tu web ✨")}`;
+const INSTAGRAM_URL = "https://www.instagram.com/pauulamartineez";
+const TIKTOK_URL = "https://www.tiktok.com/@paulaamaartinezz";
+
+export default function Home() {
+  return (
+    <main className="min-h-screen bg-background text-foreground">
+      <Nav />
+      <Hero />
+      <About />
+      <Gallery />
+      <Connect />
+      <Footer />
+    </main>
+  );
+}
+
+function Nav() {
+  return (
+    <header className="fixed inset-x-0 top-0 z-40 backdrop-blur-md bg-background/70 border-b border-border/60">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <a href="#top" className="font-display text-xl font-semibold tracking-wide">
+          Paula <span className="text-accent">Martínez</span>
+        </a>
+        <nav className="hidden gap-8 text-sm font-medium text-muted-foreground md:flex">
+          <a href="#sobre-mi" className="hover:text-foreground transition-colors">Sobre mí</a>
+          <a href="#galeria" className="hover:text-foreground transition-colors">Galería</a>
+          <a href="#contacto" className="hover:text-foreground transition-colors">Contáctame</a>
+        </nav>
+        <a
+          href="#contacto"
+          className="hidden md:inline-flex btn-3d bg-primary text-primary-foreground text-sm"
+          style={{ padding: "0.6rem 1.1rem" }}
+        >
+          Colaborar
+        </a>
+      </div>
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section id="top" className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        style={{ background: "var(--gradient-warm)" }}
+      />
+      <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-2">
+        <div>
+          <span className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground shadow-sm">
+            <Sparkles className="h-3.5 w-3.5 text-accent" /> Creadora de contenido
+          </span>
+          <h1 className="mt-6 font-display text-5xl leading-[1.05] text-balance md:text-7xl">
+            Hola, soy <span className="italic text-primary">Paula</span>.
+            <br /> Bienvenida a mi mundo.
+          </h1>
+          <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
+            Lifestyle, moda y momentos auténticos desde el Mediterráneo.
+            Conectemos y creemos algo bonito juntas.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-4 perspective">
+            <a href="#contacto" className="btn-3d bg-primary text-primary-foreground">
+              Contáctame <ArrowDown className="h-4 w-4" />
+            </a>
+            <a href="#sobre-mi" className="btn-3d bg-card text-foreground">
+              Conóceme
+            </a>
+          </div>
+        </div>
+        <div className="relative">
+          <div className="absolute -inset-6 rounded-[2rem] bg-accent/20 blur-2xl" aria-hidden />
+          <img
+            src={heroImg}
+            alt="Retrato de Paula Martínez"
+            className="relative aspect-[3/4] w-full rounded-[2rem] object-cover shadow-[var(--shadow-soft)]"
+            loading="eager"
+          />
+          <div className="absolute -bottom-6 -left-6 hidden rounded-2xl bg-card px-5 py-4 shadow-[var(--shadow-soft)] md:block">
+            <p className="font-display text-2xl italic">"Slow living, big dreams."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function About() {
+  return (
+    <section id="sobre-mi" className="py-24 md:py-32">
+      <div className="mx-auto max-w-5xl px-6">
+        <div className="mb-12 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Sobre mí</p>
+          <h2 className="mt-3 font-display text-4xl md:text-6xl">Detrás de la cámara</h2>
+        </div>
+        <div className="grid gap-12 md:grid-cols-5 md:items-center">
+          <div className="md:col-span-2 perspective">
+            <img
+              src={p1}
+              alt="Paula junto al mar"
+              className="aspect-[3/4] w-full rounded-3xl object-cover shadow-[var(--shadow-soft)] transition-transform duration-500 hover:rotate-[-2deg]"
+              loading="lazy"
+            />
+          </div>
+          <div className="md:col-span-3 space-y-5 text-lg leading-relaxed text-muted-foreground">
+            <p>
+              Soy <span className="font-semibold text-foreground">Paula Martínez</span>, creadora de
+              contenido apasionada por la moda, los viajes y todo lo que inspira a vivir con
+              intención.
+            </p>
+            <p>
+              Comparto mi día a día entre Barcelona y la costa mediterránea, donde encuentro la luz
+              perfecta para cada historia. Me encanta colaborar con marcas que cuidan los detalles y
+              que apuestan por la autenticidad.
+            </p>
+            <p>
+              Si quieres trabajar conmigo, proponer una colaboración o simplemente saludar,
+              estoy a solo un mensaje de distancia.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-4">
+              {["Moda", "Lifestyle", "Viajes", "Slow living", "Editorial"].map((t) => (
+                <span
+                  key={t}
+                  className="rounded-full border border-border bg-card px-4 py-1.5 text-sm text-foreground"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Gallery() {
+  const items = [
+    { src: p2, alt: "Paula en Barcelona", span: "md:col-span-2 md:row-span-2" },
+    { src: p3, alt: "Paula en la playa", span: "" },
+    { src: p4, alt: "Paula al atardecer", span: "" },
+    { src: heroImg, alt: "Paula street style", span: "md:col-span-2" },
+  ];
+  return (
+    <section id="galeria" className="py-24 md:py-32 bg-secondary/40">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="mb-12 flex items-end justify-between gap-6">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Galería</p>
+            <h2 className="mt-3 font-display text-4xl md:text-6xl">Momentos</h2>
+          </div>
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="hidden text-sm font-medium text-muted-foreground hover:text-foreground md:inline-flex items-center gap-2"
+          >
+            Ver más en Instagram →
+          </a>
+        </div>
+        <div className="grid auto-rows-[220px] grid-cols-2 gap-4 md:grid-cols-4">
+          {items.map((it, i) => (
+            <div key={i} className={`overflow-hidden rounded-3xl ${it.span}`}>
+              <img
+                src={it.src}
+                alt={it.alt}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Connect() {
+  const links = [
+    {
+      label: "Instagram",
+      handle: "@pauulamartineez",
+      href: INSTAGRAM_URL,
+      icon: Instagram,
+      style: {
+        background:
+          "linear-gradient(135deg, oklch(0.55 0.18 30), oklch(0.5 0.22 340), oklch(0.45 0.20 280))",
+        color: "white",
+      },
+    },
+    {
+      label: "TikTok",
+      handle: "@paulaamaartinezz",
+      href: TIKTOK_URL,
+      icon: Music2,
+      style: {
+        background: "linear-gradient(135deg, oklch(0.18 0.02 280), oklch(0.30 0.04 280))",
+        color: "white",
+      },
+    },
+    {
+      label: "WhatsApp",
+      handle: "Escríbeme directamente",
+      href: WHATSAPP_URL,
+      icon: MessageCircle,
+      style: {
+        background: "linear-gradient(135deg, oklch(0.65 0.15 150), oklch(0.50 0.16 155))",
+        color: "white",
+      },
+    },
+  ];
+  return (
+    <section id="contacto" className="py-24 md:py-32">
+      <div className="mx-auto max-w-5xl px-6">
+        <div className="mb-14 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Contáctame</p>
+          <h2 className="mt-3 font-display text-4xl md:text-6xl">Conectemos</h2>
+          <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
+            Elige tu canal favorito. Te respondo lo antes posible.
+          </p>
+        </div>
+        <div className="grid gap-6 perspective md:grid-cols-3">
+          {links.map(({ label, handle, href, icon: Icon, style }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-3d group flex-col items-start text-left"
+              style={{ ...style, padding: "1.75rem", borderRadius: "1.5rem" }}
+            >
+              <div className="flex w-full items-center justify-between">
+                <Icon className="h-8 w-8" />
+                <span className="text-xs font-semibold uppercase tracking-widest opacity-80">
+                  Abrir →
+                </span>
+              </div>
+              <div className="mt-8">
+                <p className="font-display text-3xl">{label}</p>
+                <p className="mt-1 text-sm opacity-90">{handle}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
+          <span className="inline-flex items-center gap-2">
+            <MapPin className="h-4 w-4" aria-hidden />
+            <span>Barcelona · España</span>
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <Mail className="h-4 w-4" aria-hidden />
+            <span>colaboraciones@paulamartinez.com</span>
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  const year = new Date().getFullYear();
+  return (
+    <footer className="border-t border-border py-10 text-center text-sm text-muted-foreground">
+      <p>© {year} Paula Martínez · Hecho con cariño.</p>
+    </footer>
+  );
+}

@@ -150,17 +150,15 @@ function Hero() {
         {/* Copy */}
         <div>
           <span className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground shadow-sm">
-            <Sparkles className="h-3.5 w-3.5 text-accent" /> Creadora de contenido
+            <Sparkles className="h-3.5 w-3.5 text-accent" /> UGC Creator
           </span>
 
           <h1 className="mt-6 font-display text-5xl leading-[1.05] text-balance md:text-7xl">
-            Hola, soy <span className="italic text-primary">Paula</span>.
-            <br /> Bienvenida a mi mundo.
+            Hola, soy <span className="italic text-primary">Paula Martínez</span>.
           </h1>
 
-          <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
-            Lifestyle, moda y momentos auténticos desde el Mediterráneo.
-            Conectemos y creemos algo bonito juntas.
+          <p className="mt-6 max-w-md text-xl font-medium leading-snug text-foreground">
+            Soy creadora UGC.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4 perspective">
@@ -195,14 +193,13 @@ function About() {
       <div className="mx-auto max-w-5xl px-6">
         <div className="mb-12 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Sobre mí</p>
-          <h2 className="mt-3 font-display text-4xl md:text-6xl">Detrás de la cámara</h2>
         </div>
 
         <div className="grid gap-12 md:grid-cols-5 md:items-center">
           <div className="md:col-span-2 perspective">
             <img
               src={p1}
-              alt="Paula junto al mar"
+              alt="Paula Martínez"
               className="aspect-[3/4] w-full rounded-3xl object-cover shadow-[var(--shadow-soft)] transition-transform duration-500 hover:rotate-[-2deg]"
               loading="lazy"
             />
@@ -210,22 +207,19 @@ function About() {
 
           <div className="md:col-span-3 space-y-5 text-lg leading-relaxed text-muted-foreground">
             <p>
-              Soy <span className="font-semibold text-foreground">Paula Martínez</span>, creadora de
-              contenido apasionada por la moda, los viajes y todo lo que inspira a vivir con
-              intención.
+              <span className="font-semibold text-foreground">¡Hola!</span> Soy creadora de
+              contenido UGC de 23 años residente en Murcia, especializada en los sectores de{" "}
+              <span className="text-foreground">moda, belleza, estilo de vida</span>… ¡Y lo que me
+              propongas!
             </p>
             <p>
-              Comparto mi día a día entre Barcelona y la costa mediterránea, donde encuentro la luz
-              perfecta para cada historia. Me encanta colaborar con marcas que cuidan los detalles y
-              que apuestan por la autenticidad.
-            </p>
-            <p>
-              Si quieres trabajar conmigo, proponer una colaboración o simplemente saludar,
-              estoy a solo un mensaje de distancia.
+              Me dedico a transformar los valores de tu marca en contenido orgánico, estético y
+              dinámico diseñado específicamente para conectar con las audiencias actuales y potenciar
+              tus ventas en el entorno digital.
             </p>
 
             <div className="flex flex-wrap gap-2 pt-4">
-              {["Moda", "Lifestyle", "Viajes", "Slow living", "Editorial"].map((t) => (
+              {["Moda", "Belleza", "Lifestyle", "UGC", "Estilo de vida"].map((t) => (
                 <span
                   key={t}
                   className="rounded-full border border-border bg-card px-4 py-1.5 text-sm text-foreground"

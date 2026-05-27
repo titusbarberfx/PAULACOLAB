@@ -113,6 +113,9 @@
     font-family: var(--font-body);
   }
   h1, h2, h3, .font-display { font-family: var(--font-display); letter-spacing: -0.01em; }
+
+  /* Offset anchor targets so the fixed nav never obscures the section heading */
+  section[id] { scroll-margin-top: 90px; }
 }
 
 @layer utilities {

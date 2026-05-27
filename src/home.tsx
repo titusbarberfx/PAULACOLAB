@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Instagram, MessageCircle, Music2, Mail, MapPin, Sparkles, ArrowDown } from "lucide-react";
 import heroImg from "@/assets/paula-hero.jpeg";
 import p1 from "@/assets/paula-1.jpeg";
@@ -5,12 +6,92 @@ import p2 from "@/assets/paula-2.jpeg";
 import p3 from "@/assets/paula-3.jpeg";
 import p4 from "@/assets/paula-4.jpeg";
 
+/* ─── Constants ──────────────────────────────────────────────────── */
 const PHONE = "34611477211";
 const WHATSAPP_URL = `https://wa.me/${PHONE}?text=${encodeURIComponent("¡Hola Paula! Vengo desde tu web ✨")}`;
 const INSTAGRAM_URL = "https://www.instagram.com/pauulamartineez";
 const TIKTOK_URL = "https://www.tiktok.com/@paulaamaartinezz";
 
+/** Fixed navbar height + comfortable breathing room */
+const NAV_OFFSET = 90;
+
+/* ─── Smooth-scroll engine ───────────────────────────────────────── */
+
+/** easeInOutQuint — ultra-smooth, luxury deceleration */
+function easeInOutQuint(t: number): number {
+  return t < 0.5 ? 16 * t * t * t * t * t : 1 - Math.pow(-2 * t + 2, 5) / 2;
+}
+
+/**
+ * Scrolls to an element by id with a silky ease.
+ * Adaptive duration: 500 ms minimum, scaled up with distance, capped at 950 ms.
+ * Automatically skips animation when prefers-reduced-motion is set.
+ */
+function scrollToId(id: string): void {
+  if (id === "top") {
+    smoothScrollTo(0);
+    return;
+  }
+
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  const targetY = el.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+  smoothScrollTo(targetY);
+}
+
+function smoothScrollTo(targetY: number): void {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    window.scrollTo({ top: targetY });
+    return;
+  }
+
+  const start = window.scrollY;
+  const distance = targetY - start;
+  if (Math.abs(distance) < 1) return;
+
+  // Adaptive: ~0.55ms per pixel, min 500ms, max 950ms
+  const duration = Math.min(Math.max(Math.abs(distance) * 0.55, 500), 950);
+  let startTime: number | null = null;
+
+  function step(ts: number) {
+    if (!startTime) startTime = ts;
+    const elapsed = ts - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    window.scrollTo(0, start + distance * easeInOutQuint(progress));
+    if (progress < 1) requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+}
+
+/* ─── Root ───────────────────────────────────────────────────────── */
 export default function Home() {
+  /**
+   * Single delegated listener — intercepts ALL internal anchor clicks
+   * (nav links, hero CTAs, etc.) and replaces the default jump with a
+   * smooth animated scroll, regardless of where they live in the tree.
+   */
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      const anchor = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]');
+      if (!anchor) return;
+
+      const href = anchor.getAttribute("href") ?? "";
+      const id = href.slice(1); // strip leading #
+      const target = id ? document.getElementById(id) : null;
+
+      // Only intercept links that point to an existing section on this page
+      if (!id || (!target && id !== "top")) return;
+
+      e.preventDefault();
+      scrollToId(id);
+    }
+
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Nav />
@@ -23,6 +104,7 @@ export default function Home() {
   );
 }
 
+/* ─── Nav ────────────────────────────────────────────────────────── */
 function Nav() {
   return (
     <header className="fixed inset-x-0 top-0 z-40 backdrop-blur-md bg-background/70 border-b border-border/60">
@@ -30,11 +112,19 @@ function Nav() {
         <a href="#top" className="font-display text-xl font-semibold tracking-wide">
           Paula <span className="text-accent">Martínez</span>
         </a>
+
         <nav className="hidden gap-8 text-sm font-medium text-muted-foreground md:flex">
-          <a href="#sobre-mi" className="hover:text-foreground transition-colors">Sobre mí</a>
-          <a href="#galeria" className="hover:text-foreground transition-colors">Galería</a>
-          <a href="#contacto" className="hover:text-foreground transition-colors">Contáctame</a>
+          <a href="#sobre-mi" className="hover:text-foreground transition-colors duration-200">
+            Sobre mí
+          </a>
+          <a href="#galeria" className="hover:text-foreground transition-colors duration-200">
+            Galería
+          </a>
+          <a href="#contacto" className="hover:text-foreground transition-colors duration-200">
+            Contáctame
+          </a>
         </nav>
+
         <a
           href="#contacto"
           className="hidden md:inline-flex btn-3d bg-primary text-primary-foreground text-sm"
@@ -47,6 +137,7 @@ function Nav() {
   );
 }
 
+/* ─── Hero ───────────────────────────────────────────────────────── */
 function Hero() {
   return (
     <section id="top" className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
@@ -56,18 +147,22 @@ function Hero() {
         style={{ background: "var(--gradient-warm)" }}
       />
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-2">
+        {/* Copy */}
         <div>
           <span className="inline-flex items-center gap-2 rounded-full bg-card px-4 py-1.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground shadow-sm">
             <Sparkles className="h-3.5 w-3.5 text-accent" /> Creadora de contenido
           </span>
+
           <h1 className="mt-6 font-display text-5xl leading-[1.05] text-balance md:text-7xl">
             Hola, soy <span className="italic text-primary">Paula</span>.
             <br /> Bienvenida a mi mundo.
           </h1>
+
           <p className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
             Lifestyle, moda y momentos auténticos desde el Mediterráneo.
             Conectemos y creemos algo bonito juntas.
           </p>
+
           <div className="mt-10 flex flex-wrap gap-4 perspective">
             <a href="#contacto" className="btn-3d bg-primary text-primary-foreground">
               Contáctame <ArrowDown className="h-4 w-4" />
@@ -77,6 +172,8 @@ function Hero() {
             </a>
           </div>
         </div>
+
+        {/* Photo */}
         <div className="relative">
           <div className="absolute -inset-6 rounded-[2rem] bg-accent/20 blur-2xl" aria-hidden />
           <img
@@ -85,15 +182,13 @@ function Hero() {
             className="relative aspect-[3/4] w-full rounded-[2rem] object-cover shadow-[var(--shadow-soft)]"
             loading="eager"
           />
-          <div className="absolute -bottom-6 -left-6 hidden rounded-2xl bg-card px-5 py-4 shadow-[var(--shadow-soft)] md:block">
-            <p className="font-display text-2xl italic">"Slow living, big dreams."</p>
-          </div>
         </div>
       </div>
     </section>
   );
 }
 
+/* ─── About ──────────────────────────────────────────────────────── */
 function About() {
   return (
     <section id="sobre-mi" className="py-24 md:py-32">
@@ -102,6 +197,7 @@ function About() {
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Sobre mí</p>
           <h2 className="mt-3 font-display text-4xl md:text-6xl">Detrás de la cámara</h2>
         </div>
+
         <div className="grid gap-12 md:grid-cols-5 md:items-center">
           <div className="md:col-span-2 perspective">
             <img
@@ -111,6 +207,7 @@ function About() {
               loading="lazy"
             />
           </div>
+
           <div className="md:col-span-3 space-y-5 text-lg leading-relaxed text-muted-foreground">
             <p>
               Soy <span className="font-semibold text-foreground">Paula Martínez</span>, creadora de
@@ -126,6 +223,7 @@ function About() {
               Si quieres trabajar conmigo, proponer una colaboración o simplemente saludar,
               estoy a solo un mensaje de distancia.
             </p>
+
             <div className="flex flex-wrap gap-2 pt-4">
               {["Moda", "Lifestyle", "Viajes", "Slow living", "Editorial"].map((t) => (
                 <span
@@ -143,6 +241,7 @@ function About() {
   );
 }
 
+/* ─── Gallery ────────────────────────────────────────────────────── */
 function Gallery() {
   const items = [
     { src: p2, alt: "Paula en Barcelona", span: "md:col-span-2 md:row-span-2" },
@@ -150,6 +249,7 @@ function Gallery() {
     { src: p4, alt: "Paula al atardecer", span: "" },
     { src: heroImg, alt: "Paula street style", span: "md:col-span-2" },
   ];
+
   return (
     <section id="galeria" className="py-24 md:py-32 bg-secondary/40">
       <div className="mx-auto max-w-6xl px-6">
@@ -162,11 +262,12 @@ function Gallery() {
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noreferrer"
-            className="hidden text-sm font-medium text-muted-foreground hover:text-foreground md:inline-flex items-center gap-2"
+            className="hidden text-sm font-medium text-muted-foreground hover:text-foreground transition-colors duration-200 md:inline-flex items-center gap-2"
           >
             Ver más en Instagram →
           </a>
         </div>
+
         <div className="grid auto-rows-[220px] grid-cols-2 gap-4 md:grid-cols-4">
           {items.map((it, i) => (
             <div key={i} className={`overflow-hidden rounded-3xl ${it.span}`}>
@@ -184,6 +285,7 @@ function Gallery() {
   );
 }
 
+/* ─── Connect ────────────────────────────────────────────────────── */
 function Connect() {
   const links = [
     {
@@ -218,6 +320,7 @@ function Connect() {
       },
     },
   ];
+
   return (
     <section id="contacto" className="py-24 md:py-32">
       <div className="mx-auto max-w-5xl px-6">
@@ -228,6 +331,7 @@ function Connect() {
             Elige tu canal favorito. Te respondo lo antes posible.
           </p>
         </div>
+
         <div className="grid gap-6 perspective md:grid-cols-3">
           {links.map(({ label, handle, href, icon: Icon, style }) => (
             <a
@@ -267,6 +371,7 @@ function Connect() {
   );
 }
 
+/* ─── Footer ─────────────────────────────────────────────────────── */
 function Footer() {
   const year = new Date().getFullYear();
   return (

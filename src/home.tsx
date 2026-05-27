@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Instagram, MessageCircle, Music2, Mail, MapPin, Sparkles, ArrowDown } from "lucide-react";
+import VideoCarousel from "@/components/VideoCarousel";
 import heroImg from "@/assets/paula-hero.jpeg";
 import p1 from "@/assets/paula-1.jpeg";
 import p2 from "@/assets/paula-2.jpeg";
@@ -98,6 +99,7 @@ export default function Home() {
       <Hero />
       <About />
       <Gallery />
+      <VideoCarousel />
       <Connect />
       <Footer />
     </main>

@@ -1,4 +1,6 @@
 {
   "outputDirectory": "dist",
+  "buildCommand": "vite build",
+  "installCommand": "npm install --no-fund --no-audit --prefer-offline",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }

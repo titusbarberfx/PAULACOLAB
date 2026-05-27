@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Volume2, VolumeX } from "lucide-react";
 
 import v1  from "@/assets/videos/paula-video-1.mp4";
 import v2  from "@/assets/videos/paula-video-2.mp4";
@@ -14,9 +14,9 @@ import v10 from "@/assets/videos/paula-video-10.mp4";
 import v11 from "@/assets/videos/paula-video-11.mp4";
 
 const VIDEOS = [v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11];
-const AUTO_DELAY = 4000;
+const AUTO_DELAY = 4500;
 
-/* ─── 3-D coverflow transform per card ──────────────────────────── */
+/* ─── 3-D coverflow transform ────────────────────────────────────── */
 interface CardTransform {
   transform: string;
   opacity: number;
@@ -36,7 +36,7 @@ function cardStyle(offset: number): CardTransform {
         transform: "translateX(0%) translateZ(0px) rotateY(0deg) scale(1)",
         opacity: 1,
         zIndex: 10,
-        pointerEvents: "none",
+        pointerEvents: "auto", // needs to be clickable for the sound button
         transition: T,
       };
     case 1:
@@ -69,8 +69,9 @@ function cardStyle(offset: number): CardTransform {
 /* ─── Component ──────────────────────────────────────────────────── */
 export default function VideoCarousel() {
   const total = VIDEOS.length;
-  const [current, setCurrent]   = useState(0);
-  const [paused,  setPaused]    = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [paused,  setPaused]  = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // start muted (browser policy), user unmutes
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const timerRef  = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -80,26 +81,34 @@ export default function VideoCarousel() {
   );
   const goTo = useCallback((i: number) => setCurrent(i), []);
 
-  /* Auto-advance */
+  /* Auto-advance — stops when sound is on so the user can listen */
   useEffect(() => {
-    if (paused) return;
+    if (paused || !isMuted) return;
     timerRef.current = setInterval(() => go(1), AUTO_DELAY);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [paused, go]);
+  }, [paused, isMuted, go]);
 
-  /* Play active / pause others */
+  /* Play active / pause others — respects current mute preference */
   useEffect(() => {
     videoRefs.current.forEach((vid, i) => {
       if (!vid) return;
       if (i === current) {
         vid.currentTime = 0;
+        vid.muted = isMuted;
         vid.play().catch(() => {});
       } else {
         vid.pause();
         vid.currentTime = 0;
       }
     });
-  }, [current]);
+  }, [current]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  /* Sync muted state to all video elements without restarting them */
+  useEffect(() => {
+    videoRefs.current.forEach((vid) => {
+      if (vid) vid.muted = isMuted;
+    });
+  }, [isMuted]);
 
   /* Touch swipe */
   const touchX = useRef<number | null>(null);
@@ -136,11 +145,12 @@ export default function VideoCarousel() {
             const half   = Math.floor(total / 2);
             const offset = ((i - current + total + half) % total) - half;
             const style  = cardStyle(offset);
+            const isActive = offset === 0;
 
             return (
               <div
                 key={i}
-                onClick={() => Math.abs(offset) > 0 && goTo(i)}
+                onClick={() => !isActive && goTo(i)}
                 style={{
                   position: "absolute",
                   inset: 0,
@@ -151,50 +161,103 @@ export default function VideoCarousel() {
                   ...style,
                 }}
               >
-                {/* Card */}
+                {/* Card shell */}
                 <div
                   style={{
+                    position: "relative",
                     width: "100%",
                     height: "100%",
                     borderRadius: "1.5rem",
                     overflow: "hidden",
-                    boxShadow:
-                      offset === 0
-                        ? "0 32px 80px -16px oklch(0.18 0.04 350 / 0.45), 0 0 0 1px oklch(0.88 0.02 350 / 0.55)"
-                        : "0 16px 40px -12px oklch(0.18 0.04 350 / 0.22)",
+                    boxShadow: isActive
+                      ? "0 32px 80px -16px oklch(0.18 0.04 350 / 0.45), 0 0 0 1px oklch(0.88 0.02 350 / 0.55)"
+                      : "0 16px 40px -12px oklch(0.18 0.04 350 / 0.22)",
                     background: "oklch(0.15 0.01 350)",
                   }}
                 >
                   <video
                     ref={(el) => { videoRefs.current[i] = el; }}
                     src={src}
-                    muted
+                    muted           // always muted at mount — overridden via .muted DOM prop
                     playsInline
                     loop
                     preload="metadata"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      display: "block",
-                    }}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                   />
 
-                  {/* Bottom gradient on active */}
-                  {offset === 0 && (
+                  {/* Bottom gradient vignette */}
+                  {isActive && (
                     <div
+                      aria-hidden
                       style={{
                         position: "absolute",
                         inset: 0,
                         background:
-                          "linear-gradient(to top, oklch(0.10 0.02 350 / 0.50) 0%, transparent 55%)",
+                          "linear-gradient(to top, oklch(0.08 0.02 350 / 0.65) 0%, transparent 50%)",
                         borderRadius: "inherit",
                         pointerEvents: "none",
                       }}
                     />
                   )}
-                </div>
 
+                  {/* ── Sound toggle button ── */}
+                  {isActive && (
+                    <button
+                      aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsMuted((m) => !m);
+                      }}
+                      style={{
+                        position: "absolute",
+                        bottom: "1rem",
+                        right: "1rem",
+                        zIndex: 30,
+                        width: "3rem",
+                        height: "3rem",
+                        borderRadius: "50%",
+                        background: isMuted
+                          ? "oklch(0.15 0.02 350 / 0.70)"
+                          : "oklch(0.58 0.07 15 / 0.92)",
+                        border: "1.5px solid oklch(1 0 0 / 0.30)",
+                        backdropFilter: "blur(10px)",
+                        WebkitBackdropFilter: "blur(10px)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer",
+                        color: "white",
+                        transition: "transform 0.2s cubic-bezier(0.34,1.56,0.64,1), background 0.25s",
+                      }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.15)"; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)"; }}
+                    >
+                      {isMuted
+                        ? <VolumeX size={18} strokeWidth={2} />
+                        : <Volume2 size={18} strokeWidth={2} />
+                      }
+                    </button>
+                  )}
+
+                  {/* Pulsing ring when sound is ON */}
+                  {isActive && !isMuted && (
+                    <div
+                      aria-hidden
+                      style={{
+                        position: "absolute",
+                        bottom: "calc(1rem - 6px)",
+                        right: "calc(1rem - 6px)",
+                        width: "calc(3rem + 12px)",
+                        height: "calc(3rem + 12px)",
+                        borderRadius: "50%",
+                        border: "2px solid oklch(0.58 0.07 15 / 0.6)",
+                        animation: "soundPulse 1.6s ease-out infinite",
+                        pointerEvents: "none",
+                        zIndex: 29,
+                      }}
+                    />
+                  )}
+                </div>
               </div>
             );
           })}
@@ -218,8 +281,15 @@ export default function VideoCarousel() {
           </button>
         </div>
 
-        {/* Dots — counter (n/11) + pill indicators */}
-        <div className="mt-10 flex flex-col items-center gap-4">
+        {/* Hint visible solo la primera vez (muted) */}
+        {isMuted && (
+          <p className="mt-6 text-center text-xs text-muted-foreground animate-pulse">
+            Toca 🔊 para activar el sonido
+          </p>
+        )}
+
+        {/* Counter + dots */}
+        <div className="mt-6 flex flex-col items-center gap-4">
           <span className="text-xs font-medium tabular-nums text-muted-foreground">
             {String(current + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
           </span>
@@ -244,6 +314,15 @@ export default function VideoCarousel() {
           </div>
         </div>
       </div>
+
+      {/* Keyframe for pulsing ring */}
+      <style>{`
+        @keyframes soundPulse {
+          0%   { transform: scale(1);   opacity: 0.7; }
+          70%  { transform: scale(1.5); opacity: 0;   }
+          100% { transform: scale(1.5); opacity: 0;   }
+        }
+      `}</style>
     </section>
   );
 }

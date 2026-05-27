@@ -328,7 +328,6 @@ function Connect() {
       <div className="mx-auto max-w-5xl px-6">
         <div className="mb-14 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">Contáctame</p>
-          <h2 className="mt-3 font-display text-4xl md:text-6xl">Conectemos</h2>
           <p className="mx-auto mt-4 max-w-lg text-muted-foreground">
             Elige tu canal favorito. Te respondo lo antes posible.
           </p>

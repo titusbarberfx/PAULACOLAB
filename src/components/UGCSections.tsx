@@ -1,4 +1,33 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+/* ── Logo SVG imports ──────────────────────────────────────────────── */
+import logoMaybelline  from "@/assets/logos/maybelline.svg";
+import logoLoreal      from "@/assets/logos/loreal.svg";
+import logoKerastase   from "@/assets/logos/kerastase.svg";
+import logoArmani      from "@/assets/logos/armani.svg";
+import logoNyx         from "@/assets/logos/nyx.svg";
+import logoBiotherm    from "@/assets/logos/biotherm.svg";
+import logoWeleda      from "@/assets/logos/weleda.svg";
+import logoMixa        from "@/assets/logos/mixa.svg";
+import logoHismile     from "@/assets/logos/hismile.svg";
+import logoMcdonalds   from "@/assets/logos/mcdonalds.svg";
+import logoDia         from "@/assets/logos/dia.svg";
+import logoByrokko     from "@/assets/logos/byrokko.svg";
+import logoWaynabox    from "@/assets/logos/waynabox.svg";
+import logoDermocracy  from "@/assets/logos/dermocracy.svg";
+import logoFini        from "@/assets/logos/fini.svg";
+import logoBahala      from "@/assets/logos/bahala.svg";
+import logoMatcha      from "@/assets/logos/matcha.svg";
+import logoCreu        from "@/assets/logos/creu.svg";
+import logoNicheBeauty from "@/assets/logos/nichebeauty.svg";
+import logoMatchaflix  from "@/assets/logos/matchaflix.svg";
+import logoEggo        from "@/assets/logos/eggo.svg";
+import logoMakalash    from "@/assets/logos/makalash.svg";
+import logoMukhair     from "@/assets/logos/mukhair.svg";
+import logoVelandia    from "@/assets/logos/velandia.svg";
+import logoMitchilla   from "@/assets/logos/mitchilla.svg";
+import logoGlowfilter  from "@/assets/logos/glowfilter.svg";
+import logoElinor      from "@/assets/logos/elinor.svg";
 
 /* ═══════════════════════════════════════════════════════════════════
    UGCSections.tsx  —  All sections adapted to the rose-pastel palette
@@ -218,50 +247,47 @@ export function WhyMe() {
   );
 }
 
-/* ─── 4 · Brands logo marquee ────────────────────────────────────── */
+/* ─── 4 · Colaboraciones — logo marquee ─────────────────────────── */
 
-/**
- * Brands with their Clearbit-compatible domain.
- * null = no reliable logo URL → rendered as styled text pill.
- */
-const BRANDS: { name: string; domain: string | null }[] = [
-  { name: "Maybelline",        domain: "maybelline.com" },
-  { name: "L'Oréal",           domain: "loreal.com" },
-  { name: "Lancôme",           domain: "lancome.com" },
-  { name: "Kérastase",         domain: "kerastase.com" },
-  { name: "Armani Beauty",     domain: "armani.com" },
-  { name: "Carolina Herrera",  domain: "carolinaherrera.com" },
-  { name: "NYX Cosmetics",     domain: "nyxcosmetics.com" },
-  { name: "Biotherm",          domain: "biotherm.com" },
-  { name: "Weleda",            domain: "weleda.com" },
-  { name: "Mixa",              domain: "mixa.com" },
-  { name: "Hismile",           domain: "hismileteeth.com" },
-  { name: "McDonald's",        domain: "mcdonalds.com" },
-  { name: "DIA",               domain: "dia.es" },
-  { name: "Byrokko",           domain: "byrokko.com" },
-  { name: "Waynabox",          domain: "waynabox.com" },
-  { name: "Dermocracy",        domain: "dermocracy.es" },
-  { name: "MUK Barcelona",     domain: "mukhair.com" },
-  { name: "CREU",              domain: null },
-  { name: "Mäka Lash",         domain: null },
-  { name: "BAHALA NA",         domain: null },
-  { name: "eggo.",             domain: null },
-  { name: "GLOWFILTER",        domain: null },
-  { name: "MATCHA & CO",       domain: null },
-  { name: "elinor",            domain: null },
-  { name: "Niche Beauty Lab",  domain: null },
-  { name: "Velandia",          domain: null },
-  { name: "Mitchilla",         domain: null },
-  { name: "Fini",              domain: null },
+/** Each brand: name (for alt text) + local SVG import */
+const BRANDS: { name: string; logo: string }[] = [
+  { name: "Maybelline New York",  logo: logoMaybelline  },
+  { name: "L'Oréal Paris",        logo: logoLoreal      },
+  { name: "Kérastase",            logo: logoKerastase   },
+  { name: "Armani Beauty",        logo: logoArmani      },
+  { name: "NYX Professional",     logo: logoNyx         },
+  { name: "Biotherm",             logo: logoBiotherm    },
+  { name: "WELEDA",               logo: logoWeleda      },
+  { name: "mixa",                 logo: logoMixa        },
+  { name: "hismile",              logo: logoHismile     },
+  { name: "McDonald's",           logo: logoMcdonalds   },
+  { name: "DIA",                  logo: logoDia         },
+  { name: "BYROKKO",              logo: logoByrokko     },
+  { name: "waynabox",             logo: logoWaynabox    },
+  { name: "Dermocracy",           logo: logoDermocracy  },
+  { name: "Fini",                 logo: logoFini        },
+  { name: "BAHALA NA",            logo: logoBahala      },
+  { name: "MATCHA & CO",          logo: logoMatcha      },
+  { name: "CREU",                 logo: logoCreu        },
+  { name: "Niche Beauty Lab",     logo: logoNicheBeauty },
+  { name: "Matchaflix",           logo: logoMatchaflix  },
+  { name: "eggo.",                logo: logoEggo        },
+  { name: "Mäka Lash",            logo: logoMakalash    },
+  { name: "MUK Barcelona",        logo: logoMukhair     },
+  { name: "Velandia",             logo: logoVelandia    },
+  { name: "Mitchilla",            logo: logoMitchilla   },
+  { name: "GLOWFILTER",           logo: logoGlowfilter  },
+  { name: "elinor",               logo: logoElinor      },
 ];
 
-/* Split into two rows for the two-lane marquee */
-const ROW_A = [...BRANDS, ...BRANDS];         // duplicated → seamless loop
+/* Duplicate for seamless loop */
+const ROW_A = [...BRANDS, ...BRANDS];
 const ROW_B = [...[...BRANDS].reverse(), ...[...BRANDS].reverse()];
 
 export function Brands() {
   return (
     <section
+      id="colaboraciones"
       className="py-24 md:py-32 overflow-hidden"
       style={{
         background: "linear-gradient(135deg, oklch(0.95 0.02 350), oklch(0.92 0.03 10))",
@@ -270,7 +296,7 @@ export function Brands() {
       {/* Header */}
       <div className="mx-auto max-w-6xl px-6 mb-14 text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
-          Trayectoria
+          Colaboraciones
         </p>
         <h2 className="mt-3 font-display text-4xl md:text-6xl text-foreground">
           Marcas que han
@@ -281,10 +307,8 @@ export function Brands() {
 
       {/* Marquee rows */}
       <div className="flex flex-col gap-5 select-none">
-        {/* Row A → scrolls left */}
-        <MarqueeRow items={ROW_A} direction="left" speed={38} />
-        {/* Row B → scrolls right */}
-        <MarqueeRow items={ROW_B} direction="right" speed={44} />
+        <MarqueeRow items={ROW_A} direction="left"  speed={40} />
+        <MarqueeRow items={ROW_B} direction="right" speed={46} />
       </div>
 
       {/* CTA badge */}
@@ -338,19 +362,41 @@ function MarqueeRow({
         }}
       >
         {items.map((brand, i) => (
-          <BrandCard key={`${direction}-${i}`} name={brand.name} domain={brand.domain} />
+          <BrandCard key={`${direction}-${i}`} name={brand.name} logo={brand.logo} />
         ))}
       </div>
     </div>
   );
 }
 
-/* ── Brand card with real logo + text fallback ─────────────────────── */
-function BrandCard({ name, domain }: { name: string; domain: string | null }) {
-  const [failed, setFailed] = useState(false);
-  const logoUrl = domain ? `https://logo.clearbit.com/${domain}` : null;
-  const showLogo = logoUrl && !failed;
+/* ── Brand card ────────────────────────────────────────────────────── */
+function BrandCard({ name, logo }: { name: string; logo: string }) {
+  return (
+    <div
+      className="shrink-0 overflow-hidden rounded-2xl"
+      style={{
+        height: "5rem",
+        width: "12rem",
+        boxShadow: "0 2px 12px oklch(0.70 0.04 350 / 0.18)",
+        border: "1.5px solid oklch(0.88 0.03 350)",
+      }}
+    >
+      <img
+        src={logo}
+        alt={name}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          display: "block",
+        }}
+      />
+    </div>
+  );
+}
 
+/* ── Legacy (kept for type safety — remove if unused) ───────────────── */
+function _LegacyBrandCard({ name }: { name: string }) {
   return (
     <div
       className="shrink-0 flex items-center justify-center rounded-2xl px-5"
@@ -364,30 +410,16 @@ function BrandCard({ name, domain }: { name: string; domain: string | null }) {
         WebkitBackdropFilter: "blur(6px)",
       }}
     >
-      {showLogo ? (
-        <img
-          src={logoUrl}
-          alt={name}
-          onError={() => setFailed(true)}
-          style={{
-            height: "2.4rem",
-            maxWidth: "8rem",
-            objectFit: "contain",
-            display: "block",
-          }}
-        />
-      ) : (
-        <span
-          className="text-center font-semibold leading-tight"
-          style={{
-            fontSize: "clamp(0.65rem, 1.2vw, 0.8rem)",
-            color: "oklch(0.35 0.05 350)",
-            letterSpacing: "0.02em",
-          }}
-        >
-          {name}
-        </span>
-      )}
+      <span
+        className="text-center font-semibold leading-tight"
+        style={{
+          fontSize: "clamp(0.65rem, 1.2vw, 0.8rem)",
+          color: "oklch(0.35 0.05 350)",
+          letterSpacing: "0.02em",
+        }}
+      >
+        {name}
+      </span>
     </div>
   );
 }

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80">
+  <rect width="240" height="80" fill="#DA291C"/>
+  <!-- Golden arches M -->
+  <g fill="#FFC72C">
+    <path d="M88 58 Q92 20 100 20 Q108 20 112 58 L116 58 Q112 14 100 14 Q88 14 84 58 Z"/>
+    <path d="M112 58 Q108 20 116 20 Q124 20 128 58 L132 58 Q128 14 116 14 Q104 14 108 58 Z"/>
+  </g>
+</svg>

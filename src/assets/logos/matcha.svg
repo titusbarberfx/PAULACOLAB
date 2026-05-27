@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80">
+  <rect width="240" height="80" fill="#1a1a1a"/>
+  <rect x="30" y="12" width="56" height="56" fill="#4a7c3f"/>
+  <text x="58" y="46" font-family="Arial Black, Arial, sans-serif" font-size="12" fill="#fff" text-anchor="middle" font-weight="900">抹茶</text>
+  <text x="148" y="34" font-family="Georgia, serif" font-size="14" fill="#fff" text-anchor="middle" letter-spacing="2">MATCHA</text>
+  <text x="148" y="50" font-family="Georgia, serif" font-size="10" fill="#4a7c3f" text-anchor="middle" letter-spacing="1">&amp; CO</text>
+</svg>

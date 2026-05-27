@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80">
+  <defs>
+    <linearGradient id="eggobg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffd6e0"/>
+      <stop offset="50%" stop-color="#c7ceea"/>
+      <stop offset="100%" stop-color="#b5ead7"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="80" fill="url(#eggobg)"/>
+  <text x="120" y="46" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="26" fill="#333" text-anchor="middle" letter-spacing="1">eggo.</text>
+</svg>
